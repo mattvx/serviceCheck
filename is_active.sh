@@ -2,31 +2,28 @@
 
 # Check if the service actually exists by running a command
 if ! command -v chronyd &>/dev/null; then
-        echo "Command chrony not found!"
+        printf 'Command chrony not found!\n'
         exit
 
 else
         # If it exists and is active...
         if [ "$(systemctl is-active chrony)" == "active" ]; then
-                echo "Service is up and running!"
+                printf 'Service is up and running!\n'
 
         # If it exists but is not active... Try to restart
         elif [ "$(systemctl is-active chrony)" == "inactive" ]; then
-                echo "Found stopped service! Trying to restart..."
+                printf 'Found stopped service! Trying to restart...\n'
 
                 # Checks if the command actually works
                 if ! sudo systemctl start --quiet chrony; then
-                        echo "something went wrong while starting chrony"
+                        printf 'something went wrong while starting chrony\n'
                         exit
                 else
-                        sudo systemctl start --quiet chrony
-                        if [ $? = 0 ]; then
-                                echo "...Service started!"
-                        fi
+                        printf '...Service started!\n'
                 fi
 
         else
-                echo "Something is wrong. Try running systemctl status chrony"
+                printf 'Something is wrong. Try running systemctl status chrony\n'
                 exit
         fi
 fi
