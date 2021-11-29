@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# pass the service name as first argument (which is mandatory) and 
+# as a second argument yes (if you want to enable the service) or stop (if you want to disable the service)
+
 # service to check if its enabled is equal to the first argument
 service=$1
 
@@ -7,7 +10,6 @@ doHaveI=$2
 
 # function to check if the first argument has been passed
 function argumentCheck() {
-
 	if [ -z "$service" ]; then
 		printf 'Please, provide an argument!!!\n'
 		exit
@@ -26,7 +28,7 @@ function serviceExists() {
 function isEnabled() {
 	if [ "$(systemctl is-enabled "$service")" == "enabled" ]; then
 		printf 'Service %s is enabled!\n' "$service"
-		enabled=True
+		exit
 	else
 		enabled=False
 	fi
